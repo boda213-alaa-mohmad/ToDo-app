@@ -10,10 +10,7 @@
 // make jsx and css of files
 // functions of clickhandler, and keyPressHandler
 
-
-
 //20/12/2025
-
 
 "use client";
 import { useState, useEffect } from "react";
@@ -37,6 +34,7 @@ const rotobto = Roboto({
 export default function Home() {
   const [input, setInput] = useState<string>("");
   const [toDo, setToDo] = useState<Todo[]>([]);
+  const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
     console.log(toDo);
@@ -57,6 +55,7 @@ export default function Home() {
       },
     ]);
     setInput("");
+    setCount((count) => count + 1);
   }
 
   function keyPressHandler(event: React.KeyboardEvent<HTMLInputElement>): void {
@@ -98,10 +97,32 @@ export default function Home() {
         </div>
 
         <div className="empty-state">
-          <p className="output-todo">No tasks yet. Add one to get Started!</p>
+          {toDo.length !== 0 ? (
+            <div>
+              {toDo.map(function (item: Todo) {
+                return (
+                  <div className="results-todo" key={item.id}>
+                    <div className="checkbox-span">
+                      <input type="checkbox" />
+                      <span className={`${rotobto.className}`}>
+                        {item.todo}
+                      </span>
+                    </div>
+
+                    <div className="button-options">
+                      <button>Edit</button>
+                      <button>Delete</button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="output-todo">No tasks yet. Add one to get Started!</p>
+          )}
         </div>
         <div className="stats">
-          <p>0 active Tasks</p>
+          <p>{count} active Tasks</p>
         </div>
       </div>
     </div>

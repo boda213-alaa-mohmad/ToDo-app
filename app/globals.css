@@ -5,7 +5,7 @@
 }
 
 .container {
-  height: 100vh;
+  min-height: 100vh;
   color: white;
   background: rgb(27, 35, 51);
   display: flex;
@@ -130,4 +130,55 @@ p {
 .stats {
   margin: 15px auto;
   padding: 0.5rem;
+}
+
+/* results */
+
+.results-todo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  /* background: gold; */
+  margin-bottom: 8px;
+}
+
+/* **************** */
+.checkbox-span input[type="checkbox"] {
+  color: red;
+  cursor: pointer;
+}
+
+.checkbox-span span {
+  margin-left: 8px;
+  font-size: 1.7em;
+}
+
+.button-options button {
+  font-size: 0.85rem;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.button-options :nth-child(1) {
+  background: #21be58;
+  color: white;
+}
+
+.button-options :nth-child(1):hover {
+  background-color: #135b2c;
+}
+
+.button-options :nth-child(2) {
+  background: #ef4444;
+  color: white;
+}
+
+.button-options :nth-child(2):hover {
+  background: #a11a1a;
 }
