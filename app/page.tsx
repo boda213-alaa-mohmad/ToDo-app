@@ -1,66 +1,109 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+/**
+ * I will make the awsome project en sha Allah
+ * that about TODO app for Islam I don't know How I can
+ * begin but I trust in Allah for helping me don't be
+ * frustrated or disappointed you will got this
+ * and remeber that for Islam not just only to yourself
+ */
+
+//19 / 12 / 2025
+// make jsx and css of files
+// functions of clickhandler, and keyPressHandler
+
+
+
+//20/12/2025
+
+
+"use client";
+import { useState, useEffect } from "react";
+import { Roboto } from "next/font/google";
+
+interface Todo {
+  id: string;
+  todo: string;
+  completed: boolean;
+  timeCreated: number;
+}
+
+const rotobto = Roboto({
+  subsets: ["latin"],
+  weight: "400",
+});
+
+// start small man
+//ask chat gpt about how I can make responsive web
 
 export default function Home() {
+  const [input, setInput] = useState<string>("");
+  const [toDo, setToDo] = useState<Todo[]>([]);
+
+  useEffect(() => {
+    console.log(toDo);
+  }, [toDo]);
+
+  function addToDo(): void {
+    if (input.trim() === "") {
+      return;
+    }
+
+    setToDo((prev) => [
+      ...prev,
+      {
+        id: Date.now().toString(),
+        todo: input,
+        completed: false,
+        timeCreated: Date.now(),
+      },
+    ]);
+    setInput("");
+  }
+
+  function keyPressHandler(event: React.KeyboardEvent<HTMLInputElement>): void {
+    if (event.key === "Enter") {
+      addToDo();
+    }
+  }
+
+  function clickHandler(): void {
+    addToDo();
+  }
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="container">
+      <div className={`container-todo`}>
+        <h1 className={`header ${rotobto.className}`}>My Tasks</h1>
+        <p>Stay organized and productive</p>
+
+        {/* input field */}
+        <div className="div-input-button">
+          <input
+            className={`input-field ${rotobto.className}`}
+            placeholder="Add a new task..."
+            value={input}
+            onChange={(event) => {
+              setInput(event.target.value);
+            }}
+            onKeyPress={keyPressHandler}
+          />
+          <button onClick={clickHandler} className="add-button">
+            Add
+          </button>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="options">
+          <button>All (0)</button>
+          <button>Active (0)</button>
+          <button>completed (0)</button>
         </div>
-      </main>
+
+        <div className="empty-state">
+          <p className="output-todo">No tasks yet. Add one to get Started!</p>
+        </div>
+        <div className="stats">
+          <p>0 active Tasks</p>
+        </div>
+      </div>
     </div>
   );
 }
