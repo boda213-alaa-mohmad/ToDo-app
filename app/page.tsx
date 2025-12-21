@@ -36,6 +36,21 @@ export default function Home() {
   const [toDo, setToDo] = useState<Todo[]>([]);
   const [count, setCount] = useState<number>(0);
 
+useEffect(() => {
+  const stored = localStorage.getItem("item");
+  if (stored) {
+    try {
+      setToDo(JSON.parse(stored));
+    } catch {
+      console.error("Failed to load todos");
+    }
+  }
+}, []);
+
+useEffect(() => {
+  localStorage.setItem("item", JSON.stringify(toDo));
+}, [toDo]);
+
   useEffect(() => {
     console.log(toDo);
   }, [toDo]);
@@ -122,7 +137,7 @@ export default function Home() {
           )}
         </div>
         <div className="stats">
-          <p>{count} active Tasks</p>
+          <p>{toDo.length} active Tasks</p>
         </div>
       </div>
     </div>
