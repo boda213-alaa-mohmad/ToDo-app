@@ -35,21 +35,22 @@ export default function Home() {
   const [input, setInput] = useState<string>("");
   const [toDo, setToDo] = useState<Todo[]>([]);
   const [count, setCount] = useState<number>(0);
+  const [edit, setEdit] = useState<boolean>(false);
 
-useEffect(() => {
-  const stored = localStorage.getItem("item");
-  if (stored) {
-    try {
-      setToDo(JSON.parse(stored));
-    } catch {
-      console.error("Failed to load todos");
+  useEffect(() => {
+    const stored = localStorage.getItem("item");
+    if (stored) {
+      try {
+        setToDo(JSON.parse(stored));
+      } catch {
+        console.error("Failed to load todos");
+      }
     }
-  }
-}, []);
+  }, []);
 
-useEffect(() => {
-  localStorage.setItem("item", JSON.stringify(toDo));
-}, [toDo]);
+  useEffect(() => {
+    localStorage.setItem("item", JSON.stringify(toDo));
+  }, [toDo]);
 
   useEffect(() => {
     console.log(toDo);
@@ -106,7 +107,7 @@ useEffect(() => {
         </div>
 
         <div className="options">
-          <button>All (0)</button>
+          <button>All ({toDo.length})</button>
           <button>Active (0)</button>
           <button>completed (0)</button>
         </div>
@@ -125,8 +126,25 @@ useEffect(() => {
                     </div>
 
                     <div className="button-options">
-                      <button>Edit</button>
-                      <button>Delete</button>
+                      <button
+                        onClick={() => {
+                          setEdit(!edit);
+                          console.log(edit);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          const filterToDo = toDo.filter(function (value: Todo) {
+                            return item.id !== value.id;
+                          });
+
+                          setToDo(filterToDo);
+                        }}
+                      >
+                        Delete
+                      </button>
                     </div>
                   </div>
                 );
@@ -140,6 +158,17 @@ useEffect(() => {
           <p>{toDo.length} active Tasks</p>
         </div>
       </div>
+
+      {/* {
+        edit && (
+          <div className="edit-card">
+            <h2>Editing the task</h2>
+            <input type="text" />
+            <button>okay</button>
+            <button>cancel</button>
+          </div>
+        )
+      } */} 
     </div>
   );
 }
