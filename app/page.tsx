@@ -34,8 +34,18 @@ const rotobto = Roboto({
 export default function Home() {
   const [input, setInput] = useState<string>("");
   const [toDo, setToDo] = useState<Todo[]>([]);
-  const [count, setCount] = useState<number>(0);
+  const [, setCount] = useState<number>(0);
   const [edit, setEdit] = useState<boolean>(false);
+  const activeCount = toDo.filter((todo) => !todo.completed).length;
+  const completedCount = toDo.filter((todo) => todo.completed).length;
+  type filterTyped = "all" | "active" | "completed";
+  const [filter, setFilter] = useState<filterTyped>("all");
+
+  const visibleToDo = toDo.filter((todo) => {
+    if (filter === "active") return !todo.completed;
+    if (filter === "completed") return todo.completed;
+    return true; // all
+  });
 
   useEffect(() => {
     const stored = localStorage.getItem("item");
@@ -107,19 +117,50 @@ export default function Home() {
         </div>
 
         <div className="options">
-          <button>All ({toDo.length})</button>
-          <button>Active (0)</button>
-          <button>completed (0)</button>
+          <button
+            onClick={() => {
+              setFilter("all");
+            }}
+          >
+            All ({toDo.length})
+          </button>
+
+          <button
+            onClick={() => {
+              setFilter("completed");
+            }}
+          >
+            completed ({completedCount})
+          </button>
+          <button
+            onClick={() => {
+              setFilter("active");
+            }}
+          >
+            Active ({activeCount})
+          </button>
         </div>
 
         <div className="empty-state">
           {toDo.length !== 0 ? (
             <div>
-              {toDo.map(function (item: Todo) {
+              {visibleToDo.map(function (item: Todo) {
                 return (
                   <div className="results-todo" key={item.id}>
                     <div className="checkbox-span">
-                      <input type="checkbox" />
+                      <input
+                        type="checkbox"
+                        checked={item.completed}
+                        onChange={() => {
+                          setToDo((prev) =>
+                            prev.map(function (todo) {
+                              return todo.id === item.id
+                                ? { ...todo, completed: !todo.completed }
+                                : todo;
+                            })
+                          );
+                        }}
+                      />
                       <span className={`${rotobto.className}`}>
                         {item.todo}
                       </span>
@@ -136,7 +177,9 @@ export default function Home() {
                       </button>
                       <button
                         onClick={() => {
-                          const filterToDo = toDo.filter(function (value: Todo) {
+                          const filterToDo = toDo.filter(function (
+                            value: Todo
+                          ) {
                             return item.id !== value.id;
                           });
 
@@ -168,7 +211,7 @@ export default function Home() {
             <button>cancel</button>
           </div>
         )
-      } */} 
+      } */}
     </div>
   );
 }

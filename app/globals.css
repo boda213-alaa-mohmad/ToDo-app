@@ -139,8 +139,14 @@ p {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  /* background: gold; */
+  background: #263243;
+  border-radius: 6px;
   margin-bottom: 8px;
+  transition: all 0.5s ease;
+}
+
+.results-todo:hover {
+  background: #3e4c61;
 }
 
 /* **************** */
@@ -182,3 +188,4 @@ p {
 .button-options :nth-child(2):hover {
   background: #a11a1a;
 }
+
