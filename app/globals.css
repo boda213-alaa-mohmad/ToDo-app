@@ -189,3 +189,7 @@ p {
   background: #a11a1a;
 }
 
+.options button.active {
+  background: #4f46e5;
+  color: white;
+}

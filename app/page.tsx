@@ -42,7 +42,9 @@ export default function Home() {
   const [filter, setFilter] = useState<filterTyped>("all");
 
   const visibleToDo = toDo.filter((todo) => {
-    if (filter === "active") return !todo.completed;
+    if (filter === "active") {
+      return !todo.completed;
+    }
     if (filter === "completed") return todo.completed;
     return true; // all
   });
@@ -118,6 +120,7 @@ export default function Home() {
 
         <div className="options">
           <button
+            className={filter === "all" ? "active" : ""}
             onClick={() => {
               setFilter("all");
             }}
@@ -126,6 +129,7 @@ export default function Home() {
           </button>
 
           <button
+            className={filter === "completed" ? "active" : ""}
             onClick={() => {
               setFilter("completed");
             }}
@@ -133,6 +137,7 @@ export default function Home() {
             completed ({completedCount})
           </button>
           <button
+            className={filter === "active" ? "active" : ""}
             onClick={() => {
               setFilter("active");
             }}
@@ -182,7 +187,6 @@ export default function Home() {
                           ) {
                             return item.id !== value.id;
                           });
-
                           setToDo(filterToDo);
                         }}
                       >
